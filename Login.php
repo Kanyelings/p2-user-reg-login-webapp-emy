@@ -15,17 +15,18 @@ if(isset($_POST['username'])){
     $password = stripslashes($_REQUEST['password']);
     $password = mysqli_real_escape_string($conn, $password);
     //checks if user exists in the database
-    $query = "SELECT * FROM `users` WHERE username = '$username' AND pass = '" .md5($password). "'";
+    $query = "SELECT * FROM `users` WHERE username = '$username' AND password = '$password)' ";
     $result = mysqli_query($conn, $query) or die(mysqli_error());
     $rows = mysqli_num_rows($result);
-    if ($rows == 1) {
-        $_SESSION['username'] = $username;
+    if ($rows = 1) {
+        $_SESSION['username'] = $_POST['username'];
         //redirects to a dashboard
         header('Location: dashboard.php');
     }
-    else{
-        echo 'Incorrect entries';
+    else {
+        echo 'Check all possible empty fields';
     }
+
 }
 
 
