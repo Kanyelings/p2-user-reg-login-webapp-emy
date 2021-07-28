@@ -9,7 +9,7 @@ if(mysqli_connect_error()) {
 
 
 //When form submitted, insert values into database
-if(isset($_REQUEST['firstname'])){
+if(isset($_REQUEST['firstname'])) {
     //removes backlashes
     $name = stripslashes($_REQUEST['firstname']);
     $name = mysqli_real_escape_string($conn, $name);
@@ -19,21 +19,45 @@ if(isset($_REQUEST['firstname'])){
     $username = mysqli_real_escape_string($conn, $username);
     $email = stripslashes($_REQUEST['email']);
     $email = mysqli_real_escape_string($conn, $email);
-    $password= stripslashes($_REQUEST['pass']);
+    $password = stripslashes($_REQUEST['pass']);
     $password = mysqli_real_escape_string($conn, $password);
     $create_datetime = date("Y-m-d H:i:s");
-    $query = "INSERT into `users` (firstname, lastname, username, pass, email, create_datetime)
-VALUES ('$name', '$lastname', '$username',  '$email','" .md5($password)."', '$create_datetime')";
-    $result = mysqli_query($conn, $query);
-    if($result){
-        $_POST['firstname'] = $_SESSION['firstname'];
 
-        header('Location: Login.php');
-    }
-    else{
-        echo 'Invalid entries';
+    $query_check = "SELECT * FROM users WHERE username = '$username'";
+    $res_u = mysqli_query($conn, $query_check);
+    $res = mysqli_num_rows($res_u);
+
+    $query_check1 = "SELECT * FROM users WHERE email='$email'";
+    $res_e  = mysqli_query($conn, $query_check1);
+    $res1 = mysqli_num_rows($res_e);
+
+    if ($res > 0)  {
+
+        echo 'This username already exists';
+
+
+
     }
 
+    elseif ($res1 > 0){
+
+        echo 'This email address already exists';
+    }
+
+    else {
+
+        $query = "INSERT into `users` (firstname, lastname, username, password, email, create_datetime)
+VALUES ('$name', '$lastname', '$username',  '$email','" . md5($password) . "', '$create_datetime')";
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            $_POST['username'] = $_SESSION['username'];
+            header('Location:Login.php');
+        }
+
+        else {
+            echo 'Invalid entries';
+        }
+    }
 
 
 }
@@ -89,6 +113,4 @@ VALUES ('$name', '$lastname', '$username',  '$email','" .md5($password)."', '$cr
 
     </body>
 </html>
-
-
 
