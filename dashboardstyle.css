@@ -15,7 +15,6 @@
 #box1{
 	border: 2px solid black;
 	border-radius: 8px;
-	opacity: ;
 	margin: auto;
 	padding: 20px 20px 20px 20px;
 }
@@ -44,10 +43,8 @@
 
 	border: 2px solid black;
 	border-radius: 8px;
-	opacity: ;
 	margin: auto;
 	padding: 20px 20px 20px 20px;
-	opacity: auto;
 
 }
 
